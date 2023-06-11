@@ -1,69 +1,81 @@
 import socket
 
-import threading
+import select
 
-# Endereço IP e porta do servidor
+# Configurações do servidor
 
-HOST = '127.0.0.1'
+HOST = 'localhost'  # Endereço IP do servidor
 
-PORT = 8080
+PORT = 2009  # Porta para escutar as conexões
 
-# Função que será executada em cada thread
+# Cria um socket TCP/IP
 
-def handle_client(conexao, endereco):
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    print('Conexão estabelecida com', endereco)
+# Define as opções do socket para permitir a reutilização do endereço do servidor
 
-    while True:
+server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-        # Recebe dados do cliente
+# Liga o socket ao endereço e porta especificados
 
-        dados = conexao.recv(1024)
+server_socket.bind((HOST, PORT))
 
-        if not dados:
+# Coloca o socket em modo de escuta
 
-            break
+server_socket.listen(10)
 
-        # Decodifica os dados recebidos
+# Lista de sockets de entrada (incluindo o socket servidor)
 
-        dados_decodificados = dados.decode()
+sockets = [server_socket]
 
-        print('Dados recebidos do cliente:', dados_decodificados)
-
-        # Envia uma resposta ao cliente
-
-        resposta = 'Olá, cliente!'
-
-        conexao.send(resposta.encode())
-
-    # Fecha a conexão
-
-    conexao.close()
-
-    print('Conexão encerrada com', endereco)
-
-# Criação do socket TCP/IP
-
-servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# Vincula o socket ao endereço IP e porta
-
-servidor.bind((HOST, PORT))
-
-# Ouve por conexões entrantes
-
-servidor.listen()
-
-print('Servidor aguardando conexões...')
+print("Servidor iniciado em {}:{}".format(HOST, PORT))
 
 while True:
 
-    # Aceita uma conexão
+    # Aguarda até que haja um socket pronto para leitura, gravação ou erro
 
-    conexao, endereco = servidor.accept()
+    # O segundo argumento é uma lista de sockets para monitorar para leitura
 
-    # Cria uma nova thread para lidar com a conexão
+    # O terceiro argumento é uma lista de sockets para monitorar para gravação
 
-    thread = threading.Thread(target=handle_client, args=(conexao, endereco))
+    # O quarto argumento é uma lista de sockets para monitorar para erros
 
-    thread.start()
+    readable, _, _ = select.select(sockets, [], [])
+
+    for sock in readable:
+
+        if sock == server_socket:
+
+            # Novas conexões de entrada
+
+            client_socket, client_address = server_socket.accept()
+
+            sockets.append(client_socket)
+
+            print("Nova conexão estabelecida: {}".format(client_address))
+
+        else:
+
+            # Dados recebidos de um cliente
+
+            data = sock.recv(1024)
+
+            if data:
+
+                # Encaminha a mensagem recebida para todos os clientes conectados (exceto o remetente original)
+
+                for client in sockets:
+
+                    if client != server_socket and client != sock:
+
+                        client.send(data)
+
+            else:
+
+                # Cliente desconectado
+
+                print("Cliente desconectado: {}".format(sock.getpeername()))
+
+                sock.close()
+
+                sockets.remove(sock)
