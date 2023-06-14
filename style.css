@@ -7,16 +7,13 @@ body {
 @media(prefers-color-scheme: light) {
 body {
    background-color: #oooooo;
+   color: #576CA8;
 }}
 /*fim do background*/
 .h1_1 {
     text-align: center;
-    color: #576CA8;
 }
 
 .h2_1 {
-    margin-left: auto;
-    margin-right: auto;
     text-align: center;
-    color: #576CA8;
 }
