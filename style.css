@@ -7,6 +7,9 @@
   .h1_1 {
     color: #576CA8;
   }
+  .h2_1 {
+    color: #oooooo;
+  }
 }
 
 @media(prefers-color-scheme: light) {
@@ -15,6 +18,9 @@
   }
   
   .h1_1 {
+    color: #576CA8;
+  }
+  .h2_1 {
     color: #576CA8;
   }
 }
