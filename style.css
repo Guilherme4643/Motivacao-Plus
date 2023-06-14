@@ -1,0 +1,21 @@
+/*background*/
+@media(prefers-color-scheme: dark) {
+body {
+    background-color: #000000;
+}}
+@media(prefers-color-scheme: light) {
+body {
+   background-color: #FFFFFF;
+}}
+/*fim do background*/
+.h1_1 {
+    text-align: center;
+    color: #576CA8;
+}
+
+.h2_1 {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    color: #576CA8;
+}
