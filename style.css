@@ -6,9 +6,10 @@
   
   .h1_1 {
     color: #576CA8;
+    text-shadow: 0 0 4px #576CA8;
   }
   .h2_1 {
-    color: #oooooo;
+    color: green;
   }
 }
 
@@ -21,7 +22,7 @@
     color: #576CA8;
   }
   .h2_1 {
-    color: #576CA8;
+    color: green;
   }
 }
 /*fim do background*/
