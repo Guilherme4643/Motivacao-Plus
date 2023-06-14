@@ -2,12 +2,12 @@
 @media(prefers-color-scheme: dark) {
 body {
     background-color: #000000;
-    color: #oooooo;
+  .h1_1 {color: #oooooo;}
 }}
 @media(prefers-color-scheme: light) {
 body {
    background-color: #oooooo;
-   color: #576CA8;
+  .h1_1 {color: #576CA8;}
 }}
 /*fim do background*/
 .h1_1 {
