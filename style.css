@@ -1,15 +1,25 @@
 /*background*/
 @media(prefers-color-scheme: dark) {
-body {
+  body {
     background-color: #000000;
-  .h1_1 {color: #576CA8;}
-}}
+  }
+  
+  .h1_1 {
+    color: #576CA8;
+  }
+}
+
 @media(prefers-color-scheme: light) {
-body {
-   background-color: #oooooo;
-  .h1_1 {color: #576CA8;}
-}}
+  body {
+    background-color: #oooooo;
+  }
+  
+  .h1_1 {
+    color: #576CA8;
+  }
+}
 /*fim do background*/
+
 .h1_1 {
     text-align: center;
 }
